@@ -14,7 +14,11 @@ services:
 
     App\Entity\Patient:
         autowire: false
-        
+    App\Entity\DossierMedical:
+        autowire: false
+
+     
+
     App\DTO\PatientResponse:
         arguments:
             $patient: '@App\Entity\Patient'
@@ -30,4 +34,6 @@ services:
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
     App\Service\PatientService:
+    App\Service\DossierMedicalService:
+
       

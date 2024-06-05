@@ -20,8 +20,21 @@ class DossierMedical
     #[ORM\Column(type: Types::DATE_MUTABLE)]
     private ?\DateTimeInterface $date = null;
 
-    #[ORM\OneToOne(mappedBy: 'dossierMedical', cascade: ['persist', 'remove'])]
+    #[ORM\OneToOne(inversedBy: 'dossierMedical', cascade: ['persist', 'remove'])]
+    #[ORM\JoinColumn(name: 'patient_id', referencedColumnName: 'id', nullable: false)]
     private ?Patient $patient = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $groupeSanguin = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $poids = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $taille = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $tension = null;
 
     public function getId(): ?int
     {
@@ -70,6 +83,54 @@ class DossierMedical
         }
 
         $this->patient = $patient;
+
+        return $this;
+    }
+
+    public function getGroupeSanguin(): ?string
+    {
+        return $this->groupeSanguin;
+    }
+
+    public function setGroupeSanguin(?string $groupeSanguin): static
+    {
+        $this->groupeSanguin = $groupeSanguin;
+
+        return $this;
+    }
+
+    public function getPoids(): ?string
+    {
+        return $this->poids;
+    }
+
+    public function setPoids(?string $poids): static
+    {
+        $this->poids = $poids;
+
+        return $this;
+    }
+
+    public function getTaille(): ?string
+    {
+        return $this->taille;
+    }
+
+    public function setTaille(?string $taille): static
+    {
+        $this->taille = $taille;
+
+        return $this;
+    }
+
+    public function getTension(): ?string
+    {
+        return $this->tension;
+    }
+
+    public function setTension(?string $tension): static
+    {
+        $this->tension = $tension;
 
         return $this;
     }

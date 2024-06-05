@@ -45,7 +45,6 @@ class PatientController extends AbstractController
         if (!$data) {
             return $this->json(['message' => 'Invalid JSON'], JsonResponse::HTTP_BAD_REQUEST);
         }
-    
         $patientRequest->setData($data);
         $result = $this->patientService->createPatient($patientRequest);
         if (isset($result['errors'])) {
@@ -63,7 +62,7 @@ class PatientController extends AbstractController
         return $this->json(['message' => 'Invalid JSON'], JsonResponse::HTTP_BAD_REQUEST);
     }
 
-    $this->patientRequest->setData($data); 
+    $this->patientRequest->setData($data);
     $result = $this->patientService->updatePatient($id, $this->patientRequest);
 
     if (isset($result['errors'])) {

@@ -32,7 +32,7 @@ class Patient
     #[ORM\Column(nullable: true)]
     private ?int $age = null;
 
-    #[ORM\OneToOne(inversedBy: 'patient', cascade: ['persist', 'remove'])]
+    #[ORM\OneToOne(mappedBy: 'patient', cascade: ['persist', 'remove'])]
     private ?DossierMedical $dossierMedical = null;
 
     #[ORM\OneToOne(inversedBy: 'patient', cascade: ['persist', 'remove'])]

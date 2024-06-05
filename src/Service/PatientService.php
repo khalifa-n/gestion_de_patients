@@ -120,5 +120,4 @@ class PatientService
         return 'PAT-' . $timestamp;
     }
     
-
 }
