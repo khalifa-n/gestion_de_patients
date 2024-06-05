@@ -18,7 +18,8 @@ class PatientController extends AbstractController
 
 
     public function __construct
-    (PatientService $patientService,
+    (
+    PatientService $patientService,
     PatientResponse $patientResponse,
     PatientRequest $patientRequest
     ){

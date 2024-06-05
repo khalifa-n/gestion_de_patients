@@ -43,7 +43,6 @@ class DossierMedicalService
         $this->dossierMedical = $dossierMedical;
         $this->dossierMedicalResponse = $dossierMedicalResponse;
         $this->notFoundException = $notFoundException;
-
     }
     public function getAllDossiersMedicals()
     {

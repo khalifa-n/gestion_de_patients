@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\DossierMedicalRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -35,6 +37,17 @@ class DossierMedical
 
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $tension = null;
+
+    /**
+     * @var Collection<int, RendezVous>
+     */
+    #[ORM\OneToMany(targetEntity: RendezVous::class, mappedBy: 'dossierMedical')]
+    private Collection $rendezVous;
+
+    public function __construct()
+    {
+        $this->rendezVous = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -131,6 +144,36 @@ class DossierMedical
     public function setTension(?string $tension): static
     {
         $this->tension = $tension;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, RendezVous>
+     */
+    public function getRendezVous(): Collection
+    {
+        return $this->rendezVous;
+    }
+
+    public function addRendezVou(RendezVous $rendezVou): static
+    {
+        if (!$this->rendezVous->contains($rendezVou)) {
+            $this->rendezVous->add($rendezVou);
+            $rendezVou->setDossierMedical($this);
+        }
+
+        return $this;
+    }
+
+    public function removeRendezVou(RendezVous $rendezVou): static
+    {
+        if ($this->rendezVous->removeElement($rendezVou)) {
+            // set the owning side to null (unless already changed)
+            if ($rendezVou->getDossierMedical() === $this) {
+                $rendezVou->setDossierMedical(null);
+            }
+        }
 
         return $this;
     }

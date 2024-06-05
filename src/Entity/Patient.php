@@ -5,6 +5,8 @@ namespace App\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use App\Repository\PatientRepository;
 use Symfony\Component\Validator\Constraints\NotBlank;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 
 
 #[ORM\Entity(repositoryClass: PatientRepository::class)]
@@ -35,8 +37,8 @@ class Patient
     #[ORM\OneToOne(mappedBy: 'patient', cascade: ['persist', 'remove'])]
     private ?DossierMedical $dossierMedical = null;
 
-    #[ORM\OneToOne(inversedBy: 'patient', cascade: ['persist', 'remove'])]
-    private ?RendezVous $rendezVous = null;
+    #[ORM\OneToMany(mappedBy: 'patient', targetEntity: RendezVous::class, cascade: ['persist', 'remove'])]
+    private Collection $rendezVous;
 
     #[ORM\Column(length: 255)]
     private ?string $numeroPatient = null;
@@ -118,17 +120,7 @@ class Patient
         return $this;
     }
 
-    public function getRendezVous(): ?RendezVous
-    {
-        return $this->rendezVous;
-    }
-
-    public function setRendezVous(?RendezVous $rendezVous): static
-    {
-        $this->rendezVous = $rendezVous;
-
-        return $this;
-    }
+   
 
     public function getNumeroPatient(): ?string
     {
@@ -141,4 +133,19 @@ class Patient
 
         return $this;
     }
+    public function getRendezVous(): Collection {
+        return $this->rendezVous;
+    }
+    public function setRendezVous(Collection $rendezVous): self
+{
+    $this->rendezVous = $rendezVous;
+
+    // Explicitly set the patient for each RendezVous in the collection
+    // (assuming a setter like `setPatient` exists in RendezVous)
+    foreach ($rendezVous as $rendezVousObject) {
+        $rendezVousObject->setPatient($this);
+    }
+
+    return $this;
+}
 }
