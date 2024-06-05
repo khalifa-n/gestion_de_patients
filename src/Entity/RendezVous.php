@@ -17,11 +17,21 @@ class RendezVous
     #[ORM\Column(type: Types::DATE_MUTABLE)]
     private ?\DateTimeInterface $date = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 255, nullable: true)]
     private ?string $type = null;
 
-    #[ORM\OneToOne(mappedBy: 'rendezVous', cascade: ['persist', 'remove'])]
+    #[ORM\ManyToOne(targetEntity: Patient::class, inversedBy: 'rendezVous')]
+    #[ORM\JoinColumn(nullable: false)]
     private ?Patient $patient = null;
+
+    #[ORM\Column(length: 255)]
+    private ?string $numeroRendezVous = null;
+
+    #[ORM\ManyToOne(inversedBy: 'rendezVous')]
+    private ?DossierMedical $dossierMedical = null;
+
+    #[ORM\Column(length: 255)]
+    private ?string $etat = null;
 
     public function getId(): ?int
     {
@@ -59,17 +69,45 @@ class RendezVous
 
     public function setPatient(?Patient $patient): static
     {
-        // unset the owning side of the relation if necessary
-        if ($patient === null && $this->patient !== null) {
-            $this->patient->setRendezVous(null);
-        }
-
-        // set the owning side of the relation if necessary
-        if ($patient !== null && $patient->getRendezVous() !== $this) {
-            $patient->setRendezVous($this);
-        }
+       
 
         $this->patient = $patient;
+
+        return $this;
+    }
+
+    public function getNumeroRendezVous(): ?string
+    {
+        return $this->numeroRendezVous;
+    }
+
+    public function setNumeroRendezVous(string $numeroRendezVous): static
+    {
+        $this->numeroRendezVous = $numeroRendezVous;
+
+        return $this;
+    }
+
+    public function getDossierMedical(): ?DossierMedical
+    {
+        return $this->dossierMedical;
+    }
+
+    public function setDossierMedical(?DossierMedical $dossierMedical): static
+    {
+        $this->dossierMedical = $dossierMedical;
+
+        return $this;
+    }
+
+    public function getEtat(): ?string
+    {
+        return $this->etat;
+    }
+
+    public function setEtat(string $etat): static
+    {
+        $this->etat = $etat;
 
         return $this;
     }

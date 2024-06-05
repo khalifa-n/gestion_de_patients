@@ -17,7 +17,8 @@ services:
     App\Entity\DossierMedical:
         autowire: false
 
-     
+    App\Entity\RendezVous:
+            public: false 
 
     App\DTO\PatientResponse:
         arguments:
@@ -35,5 +36,7 @@ services:
     # please note that last definitions always *replace* previous ones
     App\Service\PatientService:
     App\Service\DossierMedicalService:
+    App\Service\RendezVousService:
+
 
       
